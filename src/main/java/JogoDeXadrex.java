@@ -1,20 +1,46 @@
+import java.util.Scanner;
+
 public class JogoDeXadrez implements Jogo {
 
     @Override
     public void iniciar() {
 
+        Scanner scanner = new Scanner(System.in);
         Tabuleiro tabuleiro = new Tabuleiro();
 
-        Jogador jogadorBranco = new JogadorHumano('b');
-        Jogador jogadorPreto = new JogadorSintetico('p');
+        boolean continuar = true;
 
-        while (!tabuleiro.acabouOJogo()) {
+        while (continuar) {
 
-            jogadorBranco.jogar(tabuleiro, "P1b", 1);
-            jogadorPreto.jogar(tabuleiro, "P1p", 1);
+            tabuleiro.mostrar();
 
-            break;
+            System.out.print("\nQual peça você quer mover? ");
+            String peca = scanner.nextLine();
+
+            System.out.print("Para qual casa você deseja mover? ");
+            String casa = scanner.nextLine().toUpperCase();
+
+            while (!tabuleiro.moverPeca(peca, casa)) {
+
+                System.out.print("\nQual peça você quer mover? ");
+                peca = scanner.nextLine();
+
+                System.out.print("Para qual casa você deseja mover? ");
+                casa = scanner.nextLine().toUpperCase();
+            }
+
+            System.out.println();
+            tabuleiro.mostrar();
+
+            System.out.print("\nDeseja continuar jogando? (S/N): ");
+            String resposta = scanner.nextLine();
+
+            continuar = resposta.equalsIgnoreCase("S");
         }
+
+        scanner.close();
+
+        System.out.println("\nJogo encerrado.");
     }
 
     public static void main(String[] args) {
@@ -22,8 +48,5 @@ public class JogoDeXadrez implements Jogo {
         JogoDeXadrez partida = new JogoDeXadrez();
 
         partida.iniciar();
-
-        System.out.println("Giovanna");
     }
 }
-    
