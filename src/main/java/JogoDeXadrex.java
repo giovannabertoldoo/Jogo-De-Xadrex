@@ -1,4 +1,4 @@
-ppublic class JogoDeXadrez implements Jogo {
+public class JogoDeXadrez implements Jogo {
 
     @Override
     public void iniciar() {
