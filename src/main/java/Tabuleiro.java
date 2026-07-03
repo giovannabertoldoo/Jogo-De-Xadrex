@@ -1,77 +1,126 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class Tabuleiro {
 
     private String[][] casas = new String[8][8];
+    private Map<String, String> pecas = new HashMap<>();
 
-    public Tabuleiro(){
+    public Tabuleiro() {
 
-        for(int i = 0; i < 8; i++){
-            for(int j = 0; j < 8; j++){
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
                 casas[i][j] = "   ";
             }
         }
 
         colocarPecas();
-
-        mostrar();
     }
 
-    public void colocarPecas(){
+    public void colocarPecas() {
 
-        Rei reiBranco = new Rei("K0b");
-        Rei reiPreto = new Rei("K0p");
+        colocar("T1p", "A8");
+        colocar("H1p", "B8");
+        colocar("B1p", "C8");
+        colocar("Q0p", "D8");
+        colocar("K0p", "E8");
+        colocar("B2p", "F8");
+        colocar("H2p", "G8");
+        colocar("T2p", "H8");
 
-        Rainha rainhaBranca = new Rainha("Q0b");
-        Rainha rainhaPreta = new Rainha("Q0p");
+        colocar("P1p", "A7");
+        colocar("P2p", "B7");
+        colocar("P3p", "C7");
+        colocar("P4p", "D7");
+        colocar("P5p", "E7");
+        colocar("P6p", "F7");
+        colocar("P7p", "G7");
+        colocar("P8p", "H7");
 
-        Torre t1b = new Torre("T1b");
-        Torre t2b = new Torre("T2b");
-        Torre t1p = new Torre("T1p");
-        Torre t2p = new Torre("T2p");
+        colocar("T1b", "A1");
+        colocar("H1b", "B1");
+        colocar("B1b", "C1");
+        colocar("Q0b", "D1");
+        colocar("K0b", "E1");
+        colocar("B2b", "F1");
+        colocar("H2b", "G1");
+        colocar("T2b", "H1");
 
-        Bispo b1b = new Bispo("B1b");
-        Bispo b2b = new Bispo("B2b");
-        Bispo b1p = new Bispo("B1p");
-        Bispo b2p = new Bispo("B2p");
-
-        Cavalo h1b = new Cavalo("H1b");
-        Cavalo h2b = new Cavalo("H2b");
-        Cavalo h1p = new Cavalo("H1p");
-        Cavalo h2p = new Cavalo("H2p");
-
-        Peao p1b = new Peao("P1b");
-        Peao p2b = new Peao("P2b");
-        Peao p3b = new Peao("P3b");
-        Peao p4b = new Peao("P4b");
-        Peao p5b = new Peao("P5b");
-        Peao p6b = new Peao("P6b");
-        Peao p7b = new Peao("P7b");
-        Peao p8b = new Peao("P8b");
-
-        Peao p1p = new Peao("P1p");
-        Peao p2p = new Peao("P2p");
-        Peao p3p = new Peao("P3p");
-        Peao p4p = new Peao("P4p");
-        Peao p5p = new Peao("P5p");
-        Peao p6p = new Peao("P6p");
-        Peao p7p = new Peao("P7p");
-        Peao p8p = new Peao("P8p");
+        colocar("P1b", "A2");
+        colocar("P2b", "B2");
+        colocar("P3b", "C2");
+        colocar("P4b", "D2");
+        colocar("P5b", "E2");
+        colocar("P6b", "F2");
+        colocar("P7b", "G2");
+        colocar("P8b", "H2");
     }
 
-    public void mostrar(){
+    private void colocar(String codigo, String casa) {
 
-        for(int i = 0; i < 8; i++){
+        pecas.put(codigo, casa);
 
-            for(int j = 0; j < 8; j++){
+        int coluna = casa.charAt(0) - 'A';
+        int linha = 8 - Character.getNumericValue(casa.charAt(1));
+
+        casas[linha][coluna] = codigo;
+    }
+        public void mostrar() {
+
+        System.out.println();
+
+        for (int i = 0; i < 8; i++) {
+
+            System.out.print((8 - i) + " ");
+
+            for (int j = 0; j < 8; j++) {
                 System.out.print("[" + casas[i][j] + "]");
             }
 
             System.out.println();
         }
+
+        System.out.println("    A    B    C    D    E    F    G    H");
     }
 
-    public boolean acabouOJogo(){
+    public boolean casaLivre(String casa) {
+
+        int coluna = casa.toUpperCase().charAt(0) - 'A';
+        int linha = 8 - Character.getNumericValue(casa.charAt(1));
+
+        return casas[linha][coluna].equals("   ");
+    }
+
+    public boolean moverPeca(String codigo, String destino) {
+
+        if (!pecas.containsKey(codigo)) {
+            System.out.println("Peça inexistente.");
+            return false;
+        }
+
+        if (!casaLivre(destino)) {
+            System.out.println("A casa já está ocupada.");
+            return false;
+        }
+
+        String origem = pecas.get(codigo);
+
+        int colunaOrigem = origem.charAt(0) - 'A';
+        int linhaOrigem = 8 - Character.getNumericValue(origem.charAt(1));
+
+        casas[linhaOrigem][colunaOrigem] = "   ";
+
+        int colunaDestino = destino.toUpperCase().charAt(0) - 'A';
+        int linhaDestino = 8 - Character.getNumericValue(destino.charAt(1));
+
+        casas[linhaDestino][colunaDestino] = codigo;
+
+        pecas.put(codigo, destino.toUpperCase());
+
+        return true;
+    }
+
+    public boolean acabouOJogo() {
         return false;
     }
-
 }
-
