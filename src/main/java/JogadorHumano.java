@@ -11,5 +11,4 @@ public class JogadorHumano extends Jogador {
         return true;
     }
 }
-    }
-}
+  
