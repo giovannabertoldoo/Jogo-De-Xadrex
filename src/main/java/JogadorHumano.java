@@ -7,8 +7,9 @@ public class JogadorHumano extends Jogador {
     @Override
     public boolean jogar(Tabuleiro tabuleiro, String nomeDaPeca, int numeroDaCasa) {
 
-        System.out.println("Jogador humano realizou uma jogada.");
-
+        // A movimentação agora é feita em JogoDeXadrez
         return true;
+    }
+}
     }
 }
